@@ -37,6 +37,9 @@ namespace Core.TheBlocksProblem
 
             foreach (var command in commands)
             {
+                if (command == "quit")
+                    break;
+
                 var match = moveOntoRegEx.Match(command);
 
                 if (match.Success)

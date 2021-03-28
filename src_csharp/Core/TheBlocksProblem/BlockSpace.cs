@@ -73,9 +73,22 @@ namespace Core.TheBlocksProblem
             var sourceLocation = FindBlock(sourceBlockNumber);
             var destLocation = FindBlock(destBlockNumber);
 
-            _blockSpace[destLocation.RowIndex, destLocation.ColumnIndex + 1] = sourceBlockNumber;
+            if (_blockSpace[destLocation.RowIndex, destLocation.ColumnIndex + 1] == EmptySlot)
+            {
+                _blockSpace[destLocation.RowIndex, destLocation.ColumnIndex + 1] = sourceBlockNumber;
+            }
+            else
+            {
+                // slide blocks up
+                for (int i = 23; i >= (destLocation.ColumnIndex + 1); i--)
+                {
+                    _blockSpace[destLocation.RowIndex, i + 1] = _blockSpace[destLocation.RowIndex, i];
+                }
+
+                _blockSpace[destLocation.RowIndex, destLocation.ColumnIndex + 1] = sourceBlockNumber;
+            }
+
             _blockSpace[sourceLocation.RowIndex, sourceLocation.ColumnIndex] = EmptySlot;
         }
-
     }
 }

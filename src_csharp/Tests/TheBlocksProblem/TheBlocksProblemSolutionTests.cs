@@ -7,52 +7,80 @@ namespace Tests.TheBlocksProblem
 {
     public class TheBlocksProblemSolutionTests
     {
-        [Fact(DisplayName = "Moved single block with 2 blocks.")]
+        [Fact(DisplayName = "Move Onto single block.")]
         public void Test001()
         {
-            var solution = new TheBlocksProblemSolution();
-
-            var moves = new string[]
+            RunTest(new string[]
             {
                 "2",
-                "move 1 onto 0"
-            };
-
-            var solutionLines = solution
-                .GetSolution(moves)
-                .ToArray();
-
-            var expectedSolution = new []
+                "move 1 onto 0",
+                "quit",
+            }, new[]
             {
                 "0: 0 1",
                 "1:",
-            };
-
-            solutionLines.Should().Equal(expectedSolution);
+            });
         }
 
-        [Fact(DisplayName = "Moved single block with 2 blocks.")]
+        [Fact(DisplayName = "Move Onto two separate blocks.")]
         public void Test002()
         {
-            var solution = new TheBlocksProblemSolution();
+            RunTest(new string[]
+            {
+                "4",
+                "move 1 onto 0",
+                "move 3 onto 2",
+                "quit"
+            }, new[]
+            {
+                "0: 0 1",
+                "1:",
+                "2: 2 3",
+                "3:",
+            });
+        }
 
-            var moves = new string[]
+        [Fact(DisplayName = "Move Onto two blocks block.")]
+        public void Test003()
+        {
+            RunTest(new string[]
             {
                 "3",
                 "move 1 onto 0",
-                "move 2 onto 0"
-            };
-
-            var solutionLines = solution
-                .GetSolution(moves)
-                .ToArray();
-
-            var expectedSolution = new[]
+                "move 2 onto 1",
+                "quit"
+            }, new[]
             {
                 "0: 0 1 2",
                 "1:",
                 "2:",
-            };
+            });
+        }
+
+        [Fact(DisplayName = "Move Onto two blocks block as insert.")]
+        public void Test004()
+        {
+            RunTest(new string[]
+            {
+                "3",
+                "move 1 onto 0",
+                "move 2 onto 0",
+                "quit"
+            }, new[]
+            {
+                "0: 0 2 1",
+                "1:",
+                "2:",
+            });
+        }
+
+        private static void RunTest(string[] moves, string[] expectedSolution)
+        {
+            var solution = new TheBlocksProblemSolution();
+
+            var solutionLines = solution
+                .GetSolution(moves)
+                .ToArray();
 
             solutionLines.Should().Equal(expectedSolution);
         }
