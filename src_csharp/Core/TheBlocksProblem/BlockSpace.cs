@@ -58,8 +58,10 @@ namespace Core.TheBlocksProblem
 
                 for (int j = 0; j < 25; j++)
                 {
-                    if (_blockSpace[i, j] != EmptySlot)
-                        line += $" {_blockSpace[i, j]}";
+                    if (_blockSpace[i, j] == EmptySlot)
+                        break;
+
+                    line += $" {_blockSpace[i, j]}";
                 }
 
                 yield return line;
@@ -88,7 +90,19 @@ namespace Core.TheBlocksProblem
                 _blockSpace[destLocation.RowIndex, destLocation.ColumnIndex + 1] = sourceBlockNumber;
             }
 
-            _blockSpace[sourceLocation.RowIndex, sourceLocation.ColumnIndex] = EmptySlot;
+            if (_blockSpace[sourceLocation.RowIndex, sourceLocation.ColumnIndex + 1] != EmptySlot)
+            {
+                // slide blocks down
+
+                for (int i = sourceLocation.ColumnIndex; i < 24; i++)
+                {
+                    _blockSpace[sourceLocation.RowIndex, i] = _blockSpace[sourceLocation.RowIndex, i + 1];
+                }
+            }
+            else
+            {
+                _blockSpace[sourceLocation.RowIndex, sourceLocation.ColumnIndex] = EmptySlot;
+            }
         }
     }
 }

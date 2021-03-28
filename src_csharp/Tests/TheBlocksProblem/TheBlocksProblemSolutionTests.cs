@@ -74,6 +74,25 @@ namespace Tests.TheBlocksProblem
             });
         }
 
+        [Fact(DisplayName = "Move Onto blocks with a slide down.")]
+        public void Test005()
+        {
+            RunTest(new string[]
+            {
+                "4",
+                "move 1 onto 0",
+                "move 2 onto 0",
+                "move 0 onto 3",
+                "quit"
+            }, new[]
+            {
+                "0: 2 1",
+                "1:",
+                "2:",
+                "3: 3 0",
+            });
+        }
+
         private static void RunTest(string[] moves, string[] expectedSolution)
         {
             var solution = new TheBlocksProblemSolution();
