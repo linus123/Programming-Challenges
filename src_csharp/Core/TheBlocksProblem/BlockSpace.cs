@@ -72,15 +72,38 @@ namespace Core.TheBlocksProblem
             int sourceBlockNumber,
             int destBlockNumber)
         {
-            var destLocation = FindBlock(destBlockNumber);
-
             RemoveBlock(sourceBlockNumber);
 
-            InsertBlock(sourceBlockNumber, destLocation);
+            InsertAboveBlock(sourceBlockNumber, destBlockNumber);
         }
 
-        private void InsertBlock(int sourceBlockNumber, BlockLocation destLocation)
+        public void MoveOver(
+            int sourceBlockNumber,
+            int destBlockNumber)
         {
+            RemoveBlock(sourceBlockNumber);
+
+            DropOnTop(sourceBlockNumber, destBlockNumber);
+        }
+
+        private void DropOnTop(int sourceBlockNumber, int destBlockNumber)
+        {
+            var destLocation = FindBlock(destBlockNumber);
+
+            var i = destLocation.ColumnIndex + 1;
+
+            while (_blockSpace[destLocation.RowIndex, i] != EmptySlot)
+            {
+                i++;
+            }
+
+            _blockSpace[destLocation.RowIndex, i] = sourceBlockNumber;
+        }
+
+        private void InsertAboveBlock(int sourceBlockNumber, int destBlockNumber)
+        {
+            var destLocation = FindBlock(destBlockNumber);
+
             if (_blockSpace[destLocation.RowIndex, destLocation.ColumnIndex + 1] == EmptySlot)
             {
                 _blockSpace[destLocation.RowIndex, destLocation.ColumnIndex + 1] = sourceBlockNumber;

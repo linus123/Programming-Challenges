@@ -34,21 +34,33 @@ namespace Core.TheBlocksProblem
             var blockSpace = new BlockSpace(numberOfBlocks);
 
             var moveOntoRegEx = new Regex("move (\\d+) onto (\\d+)");
+            var moveOverRegEx = new Regex("move (\\d+) over (\\d+)");
 
             foreach (var command in commands)
             {
                 if (command == "quit")
                     break;
 
-                var match = moveOntoRegEx.Match(command);
+                var moveOntoMatch = moveOntoRegEx.Match(command);
 
-                if (match.Success)
+                if (moveOntoMatch.Success)
                 {
-                    var sourceBlockNumber = int.Parse(match.Groups[1].Value);
-                    var destBlockNumber = int.Parse(match.Groups[2].Value);
+                    var sourceBlockNumber = int.Parse(moveOntoMatch.Groups[1].Value);
+                    var destBlockNumber = int.Parse(moveOntoMatch.Groups[2].Value);
 
                     blockSpace.MoveOnto(sourceBlockNumber, destBlockNumber);
                 }
+
+                var moveOverMatch = moveOverRegEx.Match(command);
+
+                if (moveOverMatch.Success)
+                {
+                    var sourceBlockNumber = int.Parse(moveOverMatch.Groups[1].Value);
+                    var destBlockNumber = int.Parse(moveOverMatch.Groups[2].Value);
+
+                    blockSpace.MoveOver(sourceBlockNumber, destBlockNumber);
+                }
+
             }
 
             return blockSpace.GetLines();
