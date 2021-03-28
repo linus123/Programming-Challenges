@@ -27,11 +27,18 @@ namespace ConsoleRunner
                     {
                         var theBlocksProblemSolution = new TheBlocksProblemSolution();
                         
-                        var lines = GetTestFileLines();
+                        var problemLines = GetTestFileLines();
 
-                        var enumerable = theBlocksProblemSolution.GetSolution(lines);
+                        var solutionLines = theBlocksProblemSolution.GetSolution(problemLines);
 
-                        File.WriteAllLines("c:\\temp\\output000.txt", enumerable);
+                        var outputFile = Path.Combine(o.OutputDirectory, "output000.txt");
+
+                        var fileInfo = new FileInfo(outputFile);
+
+                        if (fileInfo.Exists)
+                            fileInfo.Delete();
+
+                        File.WriteAllLines(outputFile, solutionLines);
                     }
                     else
                     {
@@ -42,7 +49,7 @@ namespace ConsoleRunner
 
         public static IEnumerable<string> GetTestFileLines()
         {
-            var file = new System.IO.StreamReader(@"TheBlocksProblem\\input000.txt");
+            var file = new StreamReader(@"TheBlocksProblem\\input000.txt");
 
             string line;
 
