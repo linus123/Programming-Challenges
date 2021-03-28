@@ -72,9 +72,15 @@ namespace Core.TheBlocksProblem
             int sourceBlockNumber,
             int destBlockNumber)
         {
-            var sourceLocation = FindBlock(sourceBlockNumber);
             var destLocation = FindBlock(destBlockNumber);
 
+            RemoveBlock(sourceBlockNumber);
+
+            InsertBlock(sourceBlockNumber, destLocation);
+        }
+
+        private void InsertBlock(int sourceBlockNumber, BlockLocation destLocation)
+        {
             if (_blockSpace[destLocation.RowIndex, destLocation.ColumnIndex + 1] == EmptySlot)
             {
                 _blockSpace[destLocation.RowIndex, destLocation.ColumnIndex + 1] = sourceBlockNumber;
@@ -89,8 +95,17 @@ namespace Core.TheBlocksProblem
 
                 _blockSpace[destLocation.RowIndex, destLocation.ColumnIndex + 1] = sourceBlockNumber;
             }
+        }
 
-            if (_blockSpace[sourceLocation.RowIndex, sourceLocation.ColumnIndex + 1] != EmptySlot)
+        private void RemoveBlock(int sourceBlockNumber)
+        {
+            var sourceLocation = FindBlock(sourceBlockNumber);
+
+            if (_blockSpace[sourceLocation.RowIndex, sourceLocation.ColumnIndex + 1] == EmptySlot)
+            {
+                _blockSpace[sourceLocation.RowIndex, sourceLocation.ColumnIndex] = EmptySlot;
+            }
+            else
             {
                 // slide blocks down
 
@@ -98,10 +113,6 @@ namespace Core.TheBlocksProblem
                 {
                     _blockSpace[sourceLocation.RowIndex, i] = _blockSpace[sourceLocation.RowIndex, i + 1];
                 }
-            }
-            else
-            {
-                _blockSpace[sourceLocation.RowIndex, sourceLocation.ColumnIndex] = EmptySlot;
             }
         }
     }

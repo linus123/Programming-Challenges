@@ -93,6 +93,21 @@ namespace Tests.TheBlocksProblem
             });
         }
 
+        [Fact(DisplayName = "Move Over should work with two blocks.")]
+        public void Test006()
+        {
+            RunTest(new string[]
+            {
+                "2",
+                "move 1 over 0",
+                "quit"
+            }, new[]
+            {
+                "0: 0 1",
+                "1:",
+            });
+        }
+
         private static void RunTest(string[] moves, string[] expectedSolution)
         {
             var solution = new TheBlocksProblemSolution();
