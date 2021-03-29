@@ -153,20 +153,23 @@ namespace Core.TheBlocksProblem
         {
             var destLocation = FindBlock(destBlockNumber);
 
-            var lastNonEmptyIndexForRow = FindLastNonEmptyIndexForRow(destLocation.RowIndex);
+            // var lastNonEmptyIndexForRow = FindLastNonEmptyIndexForRow(destLocation.RowIndex);
 
-            // Insert space
-
-            for (int i = lastNonEmptyIndexForRow; i >= destLocation.ColumnIndex + 1; i--)
-            {
-                _blockSpace[destLocation.RowIndex, i + sourceBlockNumbers.Length] = _blockSpace[destLocation.RowIndex, i];
-
-                _blockSpace[destLocation.RowIndex, i] = EmptySlot;
-            }
+            InsertSpace(destLocation.RowIndex, destLocation.ColumnIndex + 1, sourceBlockNumbers.Length);
 
             for (int i = 0; i < sourceBlockNumbers.Length; i++)
             {
-                _blockSpace[destLocation.RowIndex, lastNonEmptyIndexForRow + i] = sourceBlockNumbers[i];
+                _blockSpace[destLocation.RowIndex, destLocation.ColumnIndex + 1 + i] = sourceBlockNumbers[i];
+            }
+        }
+
+        private void InsertSpace(int rowIndex, int startColIndex, int spaceCount)
+        {
+            for (int i = 24 - spaceCount; i >= startColIndex; i--)
+            {
+                _blockSpace[rowIndex, i + spaceCount] = _blockSpace[rowIndex, i];
+
+                _blockSpace[rowIndex, i] = EmptySlot;
             }
         }
 
