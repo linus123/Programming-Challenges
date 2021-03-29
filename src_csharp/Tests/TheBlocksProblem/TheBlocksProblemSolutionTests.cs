@@ -299,6 +299,29 @@ namespace Tests.TheBlocksProblem
             });
         }
 
+        [Fact(DisplayName = "Should ignore command blocs are in the same stack.")]
+        public void Test031()
+        {
+            RunTest(new string[]
+            {
+                "5",
+                "move 1 onto 0",
+                "move 2 onto 0",
+                "move 3 over 4",
+                "move 0 over 1",
+                "pile 2 over 1",
+                "pile 1 onto 2",
+                "quit"
+            }, new[]
+            {
+                "0: 0 2 1",
+                "1:",
+                "2:",
+                "3:",
+                "4: 4 3",
+            });
+        }
+
 
         private static void RunTest(string[] moves, string[] expectedSolution)
         {

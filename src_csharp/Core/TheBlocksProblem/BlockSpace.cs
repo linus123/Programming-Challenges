@@ -122,11 +122,17 @@ namespace Core.TheBlocksProblem
             }
         }
 
-        private static bool IsMoveNotValid(
+        private bool IsMoveNotValid(
             int sourceBlockNumber,
             int destBlockNumber)
         {
-            return sourceBlockNumber == destBlockNumber;
+            if (sourceBlockNumber == destBlockNumber)
+                return true;
+
+            var sourceLocation = FindBlock(sourceBlockNumber);
+            var destLocation = FindBlock(destBlockNumber);
+
+            return sourceLocation.RowIndex == destLocation.RowIndex;
         }
 
         // **
