@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 
 namespace Core.TheBlocksProblem
@@ -72,18 +71,48 @@ namespace Core.TheBlocksProblem
             int sourceBlockNumber,
             int destBlockNumber)
         {
-            RemoveBlock(sourceBlockNumber);
+            RemoveSingleBlock(sourceBlockNumber);
 
             InsertAboveBlock(sourceBlockNumber, destBlockNumber);
+        }
+
+        public void PileOnto(
+            int sourceBlockNumber,
+            int destBlockNumber)
+        {
+            var removedBlocks = RemoveStack(sourceBlockNumber);
+
+            InsertAboveBlock(removedBlocks, destBlockNumber);
         }
 
         public void MoveOver(
             int sourceBlockNumber,
             int destBlockNumber)
         {
-            RemoveBlock(sourceBlockNumber);
+            RemoveSingleBlock(sourceBlockNumber);
 
             DropOnTop(sourceBlockNumber, destBlockNumber);
+        }
+
+        private int[] RemoveStack(
+            int sourceBlockNumber)
+        {
+            var sourceLocation = FindBlock(sourceBlockNumber);
+
+            var removedBlocks = new List<int>();
+
+            var i = sourceLocation.ColumnIndex;
+
+            while (_blockSpace[sourceLocation.RowIndex, i] != EmptySlot)
+            {
+                removedBlocks.Add(_blockSpace[sourceLocation.RowIndex, i]);
+
+                _blockSpace[sourceLocation.RowIndex, i] = EmptySlot;
+
+                i++;
+            }
+
+            return removedBlocks.ToArray();
         }
 
         private void DropOnTop(int sourceBlockNumber, int destBlockNumber)
@@ -120,7 +149,40 @@ namespace Core.TheBlocksProblem
             }
         }
 
-        private void RemoveBlock(int sourceBlockNumber)
+        private void InsertAboveBlock(int[] sourceBlockNumbers, int destBlockNumber)
+        {
+            var destLocation = FindBlock(destBlockNumber);
+
+            var lastNonEmptyIndexForRow = FindLastNonEmptyIndexForRow(destLocation.RowIndex);
+
+            // Insert space
+
+            for (int i = lastNonEmptyIndexForRow; i >= destLocation.ColumnIndex + 1; i--)
+            {
+                _blockSpace[destLocation.RowIndex, i + sourceBlockNumbers.Length] = _blockSpace[destLocation.RowIndex, i];
+
+                _blockSpace[destLocation.RowIndex, i] = EmptySlot;
+            }
+
+            for (int i = 0; i < sourceBlockNumbers.Length; i++)
+            {
+                _blockSpace[destLocation.RowIndex, lastNonEmptyIndexForRow + i] = sourceBlockNumbers[i];
+            }
+        }
+
+        private int FindLastNonEmptyIndexForRow(
+            int rowIndex)
+        {
+            for (int i = 24; i >= 0; i--)
+            {
+                if (_blockSpace[rowIndex, i] != EmptySlot)
+                    return i;
+            }
+
+            throw new Exception("invalid");
+        }
+
+        private void RemoveSingleBlock(int sourceBlockNumber)
         {
             var sourceLocation = FindBlock(sourceBlockNumber);
 
@@ -137,6 +199,11 @@ namespace Core.TheBlocksProblem
                     _blockSpace[sourceLocation.RowIndex, i] = _blockSpace[sourceLocation.RowIndex, i + 1];
                 }
             }
+        }
+
+        public override string ToString()
+        {
+            return string.Join(" | ", GetLines());
         }
     }
 }

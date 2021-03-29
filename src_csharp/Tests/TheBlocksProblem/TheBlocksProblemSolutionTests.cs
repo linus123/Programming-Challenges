@@ -108,6 +108,56 @@ namespace Tests.TheBlocksProblem
             });
         }
 
+        [Fact(DisplayName = "Pile Onto basic.")]
+        public void Test0010()
+        {
+            RunTest(new string[]
+            {
+                "4",
+                "move 1 onto 0",
+                "move 2 onto 0",
+                "quit"
+            }, new[]
+            {
+                "0: 0 2 1",
+                "1:",
+                "2:",
+                "3: 3",
+            });
+
+            RunTest(new string[]
+            {
+                "4",
+                "move 1 onto 0",
+                "move 2 onto 0",
+                "move 0 onto 3",
+                "quit"
+            }, new[]
+            {
+                "0: 2 1",
+                "1:",
+                "2:",
+                "3: 3 0",
+            });
+
+            RunTest(new string[]
+            {
+                "4",
+                "move 1 onto 0",
+                "move 2 onto 0",
+                "move 0 onto 3",
+                "pile 3 onto 2",
+                "quit"
+            }, new[]
+            {
+                "0: 2 3 0 1",
+                "1:",
+                "2:",
+                "3:",
+            });
+        }
+
+
         private static void RunTest(string[] moves, string[] expectedSolution)
         {
             var solution = new TheBlocksProblemSolution();

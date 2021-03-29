@@ -35,6 +35,7 @@ namespace Core.TheBlocksProblem
 
             var moveOntoRegEx = new Regex("move (\\d+) onto (\\d+)");
             var moveOverRegEx = new Regex("move (\\d+) over (\\d+)");
+            var pileOntoRegEx = new Regex("pile (\\d+) onto (\\d+)");
 
             foreach (var command in commands)
             {
@@ -61,6 +62,15 @@ namespace Core.TheBlocksProblem
                     blockSpace.MoveOver(sourceBlockNumber, destBlockNumber);
                 }
 
+                var pileOntoMatch = pileOntoRegEx.Match(command);
+
+                if (pileOntoMatch.Success)
+                {
+                    var sourceBlockNumber = int.Parse(pileOntoMatch.Groups[1].Value);
+                    var destBlockNumber = int.Parse(pileOntoMatch.Groups[2].Value);
+
+                    blockSpace.PileOnto(sourceBlockNumber, destBlockNumber);
+                }
             }
 
             return blockSpace.GetLines();
