@@ -279,6 +279,27 @@ namespace Tests.TheBlocksProblem
             });
         }
 
+        [Fact(DisplayName = "Should ignore command when given blocks are the same.")]
+        public void Test030()
+        {
+            RunTest(new string[]
+            {
+                "5",
+                "move 1 onto 1",
+                "pile 0 onto 0",
+                "move 4 over 4",
+                "quit"
+            }, new[]
+            {
+                "0: 0",
+                "1: 1",
+                "2: 2",
+                "3: 3",
+                "4: 4",
+            });
+        }
+
+
         private static void RunTest(string[] moves, string[] expectedSolution)
         {
             var solution = new TheBlocksProblemSolution();

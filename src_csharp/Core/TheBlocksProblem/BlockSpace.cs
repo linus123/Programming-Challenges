@@ -71,6 +71,9 @@ namespace Core.TheBlocksProblem
             int sourceBlockNumber,
             int destBlockNumber)
         {
+            if (IsMoveNotValid(sourceBlockNumber, destBlockNumber))
+                return;
+
             RemoveSingleBlock(sourceBlockNumber);
 
             InsertAboveBlock(sourceBlockNumber, destBlockNumber);
@@ -80,6 +83,9 @@ namespace Core.TheBlocksProblem
             int sourceBlockNumber,
             int destBlockNumber)
         {
+            if (IsMoveNotValid(sourceBlockNumber, destBlockNumber))
+                return;
+
             var removedBlocks = RemoveStack(sourceBlockNumber);
 
             InsertAboveBlock(removedBlocks, destBlockNumber);
@@ -89,6 +95,9 @@ namespace Core.TheBlocksProblem
             int sourceBlockNumber,
             int destBlockNumber)
         {
+            if (IsMoveNotValid(sourceBlockNumber, destBlockNumber))
+                return;
+
             RemoveSingleBlock(sourceBlockNumber);
 
             DropOnTop(sourceBlockNumber, destBlockNumber);
@@ -98,6 +107,9 @@ namespace Core.TheBlocksProblem
             int sourceBlockNumber,
             int destBlockNumber)
         {
+            if (IsMoveNotValid(sourceBlockNumber, destBlockNumber))
+                return;
+
             var removedBlocks = RemoveStack(sourceBlockNumber);
 
             var deskBlockNumber = FindBlock(destBlockNumber);
@@ -108,6 +120,13 @@ namespace Core.TheBlocksProblem
             {
                 _blockSpace[deskBlockNumber.RowIndex, lastNonEmptyIndex + 1 + i] = removedBlocks[i];
             }
+        }
+
+        private static bool IsMoveNotValid(
+            int sourceBlockNumber,
+            int destBlockNumber)
+        {
+            return sourceBlockNumber == destBlockNumber;
         }
 
         // **
