@@ -94,6 +94,24 @@ namespace Core.TheBlocksProblem
             DropOnTop(sourceBlockNumber, destBlockNumber);
         }
 
+        public void PileOver(
+            int sourceBlockNumber,
+            int destBlockNumber)
+        {
+            var removedBlocks = RemoveStack(sourceBlockNumber);
+
+            var deskBlockNumber = FindBlock(destBlockNumber);
+
+            var lastNonEmptyIndex = FindLastNonEmptyIndexForRow(deskBlockNumber.RowIndex);
+
+            for (int i = 0; i < removedBlocks.Length; i++)
+            {
+                _blockSpace[deskBlockNumber.RowIndex, lastNonEmptyIndex + 1 + i] = removedBlocks[i];
+            }
+        }
+
+        // **
+
         private int[] RemoveStack(
             int sourceBlockNumber)
         {
@@ -152,8 +170,6 @@ namespace Core.TheBlocksProblem
         private void InsertAboveBlock(int[] sourceBlockNumbers, int destBlockNumber)
         {
             var destLocation = FindBlock(destBlockNumber);
-
-            // var lastNonEmptyIndexForRow = FindLastNonEmptyIndexForRow(destLocation.RowIndex);
 
             InsertSpace(destLocation.RowIndex, destLocation.ColumnIndex + 1, sourceBlockNumbers.Length);
 

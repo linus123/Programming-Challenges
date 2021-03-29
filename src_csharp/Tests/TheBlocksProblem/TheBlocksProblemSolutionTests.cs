@@ -227,7 +227,57 @@ namespace Tests.TheBlocksProblem
             });
         }
 
+        [Fact(DisplayName = "Pile over should work.")]
+        public void Test0020()
+        {
+            RunTest(new string[]
+            {
+                "5",
+                "move 1 onto 0",
+                "move 2 onto 0",
+                "quit"
+            }, new[]
+            {
+                "0: 0 2 1",
+                "1:",
+                "2:",
+                "3: 3",
+                "4: 4",
+            });
 
+            RunTest(new string[]
+            {
+                "5",
+                "move 1 onto 0",
+                "move 2 onto 0",
+                "move 3 over 4",
+                "quit"
+            }, new[]
+            {
+                "0: 0 2 1",
+                "1:",
+                "2:",
+                "3:",
+                "4: 4 3",
+            });
+
+            RunTest(new string[]
+            {
+                "5",
+                "move 1 onto 0",
+                "move 2 onto 0",
+                "move 3 over 4",
+                "pile 4 over 0",
+                "quit"
+            }, new[]
+            {
+                "0: 0 2 1 4 3",
+                "1:",
+                "2:",
+                "3:",
+                "4:",
+            });
+        }
 
         private static void RunTest(string[] moves, string[] expectedSolution)
         {
