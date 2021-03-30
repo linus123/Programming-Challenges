@@ -352,6 +352,61 @@ namespace Tests.TheBlocksProblem
             });
         }
 
+        // [Fact(DisplayName = "Sample problem 2.")]
+        // public void Test051()
+        // {
+        //     RunTest(new string[]
+        //     {
+        //         "24",
+        //         "move 2 onto 1",
+        //         "move 5 over 1",
+        //         "move 3 onto 2",
+        //         "move 23 over 0",
+        //         "pile 22 over 17",
+        //         "move 4 onto 3",
+        //         "move 5 over 1",
+        //         "move 23 onto 3",
+        //         "pile 1 over 10",
+        //         "move 9 over 8",
+        //         "move 11 over 8",
+        //         "pile 3 over 8",
+        //         "pile 8 over 3",
+        //         "move 20 over 19",
+        //         "pile 19 over 18",
+        //         "pile 18 onto 15",
+        //         "move 15 over 3",
+        //         "pile 20 onto 19",
+        //         "pile 19 onto 18",
+        //         "pile 18 over 17",
+        //         "quit",
+        //     }, new[]
+        //     {
+        //         "0: 0",
+        //         "1:",
+        //         "2:",
+        //         "3:",
+        //         "4: 4",
+        //         "5: 5",
+        //         "6: 6",
+        //         "7: 7",
+        //         "8: 8 9 11 3 23 15",
+        //         "9:",
+        //         "10: 10 1 2",
+        //         "11:",
+        //         "12: 12",
+        //         "13: 13",
+        //         "14: 14",
+        //         "15:",
+        //         "16: 16",
+        //         "17: 17 22 18 19 20",
+        //         "18:",
+        //         "19:",
+        //         "20:",
+        //         "21: 21",
+        //         "22:",
+        //         "23:",
+        //     });
+        // }
 
         private static void RunTest(string[] moves, string[] expectedSolution)
         {
